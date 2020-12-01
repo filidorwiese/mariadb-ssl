@@ -26,4 +26,4 @@ EOF
 fi
 
 # Kick off upstream entrypoint
-exec /usr/local/bin/docker-entrypoint.sh "$@"
+/usr/local/bin/docker-entrypoint.sh "$@"

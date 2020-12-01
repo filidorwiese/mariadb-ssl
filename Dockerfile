@@ -5,3 +5,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY generate-ssl-certs.sh /usr/local/bin/
 ENTRYPOINT ["generate-ssl-certs.sh"]
+
+CMD ["mysqld"]
