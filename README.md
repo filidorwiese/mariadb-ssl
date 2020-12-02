@@ -2,11 +2,13 @@
 
 This wraps the official [MariaDB 10.5](https://hub.docker.com/_/mariadb) docker image with a script to generate self-signed certificates on initial startup.
 
-You can specify the openssl request subject with the `OPENSSL_SUBJECT` environment variable to tweak the certificates:
+You can specify the openssl request subject (such as the Common Name) with the `OPENSSL_SERVER_SUBJECT` environment variable to tweak the certificates:
 
 ```
-docker run -e MYSQL_ROOT_PASSWORD=12345 -e OPENSSL_SUBJECT="/C=US/ST=State/L=City/O=Organization/OU=Department/CN=server.fqdn" -it mariadb-ssl
+docker run -e MYSQL_ROOT_PASSWORD=12345 -e OPENSSL_SERVER_SUBJECT="/C=US/ST=State/L=City/O=Organization/OU=Department/CN=server.fqdn" -it mariadb-ssl
 ```
+
+Likewise `OPENSSL_CA_SUBJECT` and `OPENSSL_CLIENT_SUBJECT` can be defined if needed, but they are all optional.
 
 Note that this only has effect on the first run of the image, when the certificates are created. 
 
