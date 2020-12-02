@@ -16,27 +16,27 @@ cd "${DIR}"
 
 # Create CA certificate
 openssl genrsa 2048 > ca-key.pem
-openssl req -new -x509 -nodes -days ${EXPIRE_DAYS} \
+openssl req -new -x509 -nodes -days "${EXPIRE_DAYS}" \
         -key ca-key.pem -subj "${OPENSSL_CA_SUBJECT}" \
         -out ca.pem
 
 # Create server certificate, remove passphrase, and sign it
 # server-cert.pem = public key, server-key.pem = private key
-openssl req -newkey rsa:2048 -days ${EXPIRE_DAYS} \
+openssl req -newkey rsa:2048 -days "${EXPIRE_DAYS}" \
         -nodes -keyout server-key.pem -subj "${OPENSSL_SERVER_SUBJECT}" \
         -out server-req.pem
 openssl rsa -in server-key.pem -out server-key.pem
-openssl x509 -req -in server-req.pem -days ${EXPIRE_DAYS} \
+openssl x509 -req -in server-req.pem -days "${EXPIRE_DAYS}" \
         -CA ca.pem -CAkey ca-key.pem -set_serial 01 \
         -out server-cert.pem
 
 # Create client certificate, remove passphrase, and sign it
 # client-cert.pem = public key, client-key.pem = private key
-openssl req -newkey rsa:2048 -days 3600 \
+openssl req -newkey rsa:2048 -days "${EXPIRE_DAYS}" \
         -nodes -keyout client-key.pem -subj "${OPENSSL_SERVER_SUBJECT}" \
         -out client-req.pem
 openssl rsa -in client-key.pem -out client-key.pem
-openssl x509 -req -in client-req.pem -days 3600 \
+openssl x509 -req -in client-req.pem -days "${EXPIRE_DAYS}" \
         -CA ca.pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem
 
 openssl verify -CAfile ca.pem server-cert.pem client-cert.pem
